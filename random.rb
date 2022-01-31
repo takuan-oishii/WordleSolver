@@ -9,5 +9,5 @@ File.open('dictionary.txt', 'r') do |f|
 end
 
 solver = RandomSolver.new(all_words)
-answer = solver.solve 'adore'
+answer = solver.solve 'arose'
 puts "answer = #{answer}"

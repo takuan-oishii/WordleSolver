@@ -59,9 +59,11 @@ class Solver
   def next_challenge(new_candidates)
     ranking = character_ranking(new_candidates)
 
+    new_candidates.sample if new_candidates.length < 6
+
     score = {}
     new_candidates.each { |candidate| score[candidate] = calc_score(candidate, ranking) }
-    score.to_a.sort_by { |s| s[1] }.last.first
+    score.to_a.sort { |a, b| a[1] <=> b[1] }[-2].first
   end
 
   def calc_score(word, ranking)
