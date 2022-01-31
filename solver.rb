@@ -12,7 +12,7 @@ class Solver
 
     get_colors(challenge).each.with_index do |r, i|
       if r == '0'
-        new_candidates = gray_filter(new_candidates, challenge[i])
+        new_candidates = gray_filter(new_candidates, challenge[i], i)
       elsif r == '1'
         new_candidates = yellow_filter(new_candidates, challenge[i], i)
       else
@@ -30,9 +30,9 @@ class Solver
 
   private
 
-  def gray_filter(new_candidates, character)
+  def gray_filter(new_candidates, character, position)
     filtered = new_candidates.filter { |candidate| !candidate.include? character }
-    filtered.empty? ? new_candidates : filtered
+    filtered.empty? ? new_candidates.filter { |candidate| candidate[position] != character } : filtered
   end
 
   def yellow_filter(new_candidates, character, position)
