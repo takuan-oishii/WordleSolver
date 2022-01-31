@@ -31,7 +31,8 @@ class Solver
   private
 
   def gray_filter(new_candidates, character)
-    new_candidates.filter { |candidate| !candidate.include? character }
+    filtered = new_candidates.filter { |candidate| !candidate.include? character }
+    filtered.empty? ? new_candidates : filtered
   end
 
   def yellow_filter(new_candidates, character, position)
@@ -59,7 +60,7 @@ class Solver
   def next_challenge(new_candidates)
     ranking = character_ranking(new_candidates)
 
-    new_candidates.sample if new_candidates.length < 6
+    return new_candidates.sample if new_candidates.length < 6
 
     score = {}
     new_candidates.each { |candidate| score[candidate] = calc_score(candidate, ranking) }
