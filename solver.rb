@@ -6,7 +6,10 @@ File.open('dictionary.txt', 'r') do |f|
   }
 end
 
+SEIKAI = candidates.sample
+
 def solve(candidates, challenged, result)
+  p challenged
   new_candidates = candidates
 
   result.each.with_index do |r, i|
@@ -19,9 +22,12 @@ def solve(candidates, challenged, result)
     end
   end
 
-  p new_candidates
-  p character_ranking new_candidates
-  p next_challenge new_candidates
+  if new_candidates.count == 1
+    new_candidates.first
+  else
+    will_challenge = next_challenge(new_candidates)
+    solve(new_candidates, will_challenge, get_colors(will_challenge))
+  end
 end
 
 def gray_filter(candidates, character)
@@ -66,7 +72,17 @@ def get_colors(word)
   # 0 → gray
   # 1 → yellow
   # 2 → green
-  %w[0 1 2 0 0]
+  word.chars.map.with_index do |w, i|
+    if w == SEIKAI[i]
+      '2'
+    elsif SEIKAI.include? w
+      '1'
+    else
+      '0'
+    end
+  end
 end
 
-solve candidates, 'adore', get_colors('adore')
+answer = solve candidates, 'adore', get_colors('adore')
+
+puts "answer = #{answer}"
